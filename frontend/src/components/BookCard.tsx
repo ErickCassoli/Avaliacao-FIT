@@ -28,6 +28,9 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
             {book.titulo}
           </h3>
         </Link>
+        <p className="book-card__description">
+          {book.descricao}
+        </p>
         <p className="book-card__author">{book.autor}</p>
       </div>
     </article>

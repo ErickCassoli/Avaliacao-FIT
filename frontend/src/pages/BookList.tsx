@@ -36,7 +36,15 @@ const BookList = () => {
   return (
     <div className="page-container">
       <header className="page-header">
-        <h1 className="page-title">Livros</h1>
+        <div className="header-top">
+          <h1 className="page-title">Livros</h1>
+          <button 
+            className="btn-text" 
+            onClick={() => setIsCreateModalOpen(true)}
+          >
+            Novo
+          </button>
+        </div>
         
         <div className="search-bar">
           <Search className="search-icon" size={20} />
@@ -47,13 +55,6 @@ const BookList = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-
-        <button 
-          className="btn-text" 
-          onClick={() => setIsCreateModalOpen(true)}
-        >
-          Novo
-        </button>
       </header>
 
       {loading ? (

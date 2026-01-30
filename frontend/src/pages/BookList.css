@@ -6,9 +6,16 @@
 
 .page-header {
   display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Row 1: Title and New Button */
+.header-top {
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--spacing-lg);
 }
 
 .page-title {
@@ -16,26 +23,27 @@
   font-weight: 700;
 }
 
-/* Search Bar */
+/* Row 2: Search Bar */
 .search-bar {
   position: relative;
   width: 100%;
-  max-width: 400px;
 }
 
 .search-bar input {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.75rem;
   background-color: var(--bg-card);
-  border: none;
+  border: 1px solid transparent;
   border-radius: 9999px; /* Pill */
-  box-shadow: var(--shadow-sm);
   font-size: 1rem;
   outline: none;
+  transition: box-shadow 0.2s, border-color 0.2s;
 }
 
 .search-bar input:focus {
-  box-shadow: var(--shadow-md);
+  background-color: white;
+  box-shadow: var(--shadow-sm);
+  border-color: #E2E8F0;
 }
 
 .search-icon {
@@ -44,6 +52,7 @@
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-secondary);
+  pointer-events: none;
 }
 
 /* Header Action */
@@ -54,16 +63,20 @@
   font-weight: 600;
   color: var(--text-primary);
   cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s;
 }
 
 .btn-text:hover {
-  text-decoration: underline;
+  background-color: rgba(0, 0, 0, 0.05);
+  text-decoration: none;
 }
 
 /* Grid */
 .book-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--spacing-lg);
 }
 
@@ -72,4 +85,5 @@
   text-align: center;
   color: var(--text-secondary);
   padding: 3rem;
+  font-size: 1.1rem;
 }
