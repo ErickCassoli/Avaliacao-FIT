@@ -10,4 +10,4 @@ async function bootstrap() {
   app.enableCors(); // Standard for frontend comms
   await app.listen(process.env.BACKEND_PORT ?? 3000);
 }
-bootstrap();
+void bootstrap();
