@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: livraria_db
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - livraria_network
+
+#  backend:
+#    build: ./backend
+#    container_name: livraria_backend
+#    ports:
+#      - "${BACKEND_PORT}:3000"
+#    environment:
+#      DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+#    depends_on:
+#      - db
+#    networks:
+#      - livraria_network
+#
+#  frontend:
+#    build: ./frontend
+#    container_name: livraria_frontend
+#    ports:
+#      - "${FRONTEND_PORT}:5173"
+#    depends_on:
+#      - backend
+#    networks:
+#      - livraria_network
+
+networks:
+  livraria_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
