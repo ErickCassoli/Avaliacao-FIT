@@ -1,6 +1,6 @@
 # 📚 Livraria FIT - Fullstack Challenge
 
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Node](https://img.shields.io/badge/node-v18+-green)
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Node](https://img.shields.io/badge/node-v18+-green)
 
 Sistema completo de gerenciamento de livros desenvolvido como parte da avaliação técnica FIT. O projeto demonstra uma arquitetura escalável utilizando **NestJS** no backend e **React** no frontend, com armazenamento híbrido (Relacional + NoSQL).
 
