@@ -22,17 +22,28 @@ A maneira mais fácil de rodar o projeto é utilizando o Docker Compose:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone https://github.com/seu-usuario/Avaliacao-FIT.git
+    git clone https://github.com/ErickCassoli/Avaliacao-FIT.git
     cd Avaliacao-FIT
     ```
 
-2.  **Suba os Bancos de Dados:**
+2.  **Configuração de Ambiente (.env):**
+    O projeto utiliza variáveis de ambiente para conectar aos bancos de dados.
+    Crie um arquivo `.env` na raiz do projeto (baseado no exemplo) antes de subir os containers:
+
+    ```bash
+    cp .env.example .env
+    # Se estiver no Windows (PowerShell):
+    # copy .env.example .env
+    ```
+    *Isso garantirá que o Backend consiga se conectar ao Postgres e Mongo.*
+
+3.  **Suba os Bancos de Dados:**
     ```bash
     docker compose up -d
     ```
     *Isso iniciará os containers do PostgreSQL e MongoDB.*
 
-3.  **Inicie as Aplicações:**
+4.  **Inicie as Aplicações:**
 
     *   **Backend:**
         ```bash
@@ -48,7 +59,7 @@ A maneira mais fácil de rodar o projeto é utilizando o Docker Compose:
         npm run dev
         ```
 
-4.  **Acesse:**
+5.  **Acesse:**
     *   📱 **Aplicação:** [http://localhost:5173](http://localhost:5173)
     *   📄 **Documentação API:** [http://localhost:3000/api/docs](http://localhost:3000/api/docs)
 
