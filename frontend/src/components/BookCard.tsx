@@ -13,7 +13,7 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
       <div className="book-card__image-container">
         <Link to={`/books/${book.id}`} className="book-card__link">
           <img 
-            src={book.imagem_url} 
+            src={`http://localhost:3000/images/${book.imagem_id}`} 
             alt={`Capa do livro ${book.titulo}`} 
             className="book-card__image" 
             onError={(e) => {

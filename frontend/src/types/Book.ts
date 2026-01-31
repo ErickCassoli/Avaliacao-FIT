@@ -4,5 +4,5 @@ export interface Book {
     autor: string;
     data_publicacao: string;
     descricao: string;
-    imagem_url: string;
+    imagem_id: string;
 }

@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import { Image as ImageIcon } from 'lucide-react';
 import type { Book } from '../types/Book';
 import Modal from './Modal';
 import api from '../services/api';
@@ -12,12 +13,11 @@ interface BookFormModalProps {
   bookToEdit?: Book | null;
 }
 
-interface FormData {
+interface BookFormInputs {
   titulo: string;
   autor: string;
   data_publicacao: string;
   descricao: string;
-  imagem_url: string;
 }
 
 const BookFormModal: React.FC<BookFormModalProps> = ({ 
@@ -26,9 +26,25 @@ const BookFormModal: React.FC<BookFormModalProps> = ({
   onSuccess, 
   bookToEdit 
 }) => {
-  const { register, handleSubmit, reset, setValue, watch, formState: { errors, isSubmitting } } = useForm<FormData>();
+  const { register, handleSubmit, reset, setValue, formState: { errors, isSubmitting } } = useForm<BookFormInputs>();
   const isEditing = !!bookToEdit;
-  const imageUrl = watch('imagem_url');
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = React.useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Trigger file input click
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  // Update preview when file changes
+  useEffect(() => {
+    if (selectedFile) {
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setPreviewUrl(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [selectedFile]);
 
   useEffect(() => {
     if (isOpen) {
@@ -42,30 +58,64 @@ const BookFormModal: React.FC<BookFormModalProps> = ({
         // Let's use type="text" with placeholder "dd/mm/yyyy" to be safe with "17/08/1945" string format requirement.
         setValue('data_publicacao', bookToEdit.data_publicacao);
         setValue('descricao', bookToEdit.descricao);
-        setValue('imagem_url', bookToEdit.imagem_url);
+        setValue('data_publicacao', bookToEdit.data_publicacao);
+        setValue('descricao', bookToEdit.descricao);
+        // Construct URL from ID
+        const backendUrl = 'http://localhost:3000'; // Or use env
+        const imageUrl = bookToEdit.imagem_id ? `${backendUrl}/images/${bookToEdit.imagem_id}` : '';
+        setPreviewUrl(imageUrl);
       } else {
         reset({
           titulo: '',
           autor: '',
           data_publicacao: '',
           descricao: '',
-          imagem_url: ''
         });
+        setPreviewUrl('');
+        setSelectedFile(null);
       }
     }
   }, [isOpen, bookToEdit, setValue, reset]);
 
-  const onSubmit = async (data: FormData) => {
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+
+  const onSubmit = async (data: BookFormInputs) => {
     try {
+      const formData = new FormData();
+      formData.append('titulo', data.titulo);
+      formData.append('autor', data.autor);
+      formData.append('data_publicacao', data.data_publicacao);
+      formData.append('descricao', data.descricao);
+      
+      if (selectedFile) {
+        formData.append('image', selectedFile);
+      } else if (!isEditing) {
+        alert('Por favor, selecione uma imagem de capa.');
+        return;
+      }
+      // Note: If editing and no new file, we don't send 'image'. 
+      // Backend needs to handle this (optional update). 
+      // But currently we're reusing create/update logic.
+      // If backend requires image on Create, we must check selectedFile.
+
       if (isEditing && bookToEdit) {
-        await api.put(`/books/${bookToEdit.id}`, data);
+        // For update, we might need a different header or just standard axios behavior
+        await api.put(`/books/${bookToEdit.id}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
       } else {
-        await api.post('/books', data);
+        await api.post('/books', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
       }
       onSuccess();
       onClose();
     } catch (error) {
-      console.error('Error saving book:', error);
+           console.error('Error saving book:', error);
       alert('Erro ao salvar o livro. Verifique o console.');
     }
   };
@@ -110,41 +160,42 @@ const BookFormModal: React.FC<BookFormModalProps> = ({
               {errors.data_publicacao && <span className="error-msg">{errors.data_publicacao.message}</span>}
             </div>
             
-            <div className="form-group">
-              <label htmlFor="imagem_url">URL da Capa</label>
-              <input 
-                id="imagem_url"
-                {...register('imagem_url', { required: 'URL obrigatória para preview' })} 
-                placeholder="https://..."
-              />
-              {errors.imagem_url && <span className="error-msg">{errors.imagem_url.message}</span>}
-            </div>
+            
+            {/* File Input removed from here - moved to hidden input in right column */}
 
-            <div className="form-group">
-              <label htmlFor="descricao">Descrição</label>
-              <textarea 
-                id="descricao"
-                {...register('descricao', { required: 'Descrição é obrigatória' })} 
-                rows={5}
-              />
-              {errors.descricao && <span className="error-msg">{errors.descricao.message}</span>}
-            </div>
+            {/* Description field moved out of here */}
           </div>
 
           <div className="book-form__preview">
-             {imageUrl ? (
-               <div className="preview-card">
-                 <img src={imageUrl} alt="Preview" onError={(e) => (e.target as HTMLImageElement).style.display = 'none'} />
-                 <div className="preview-info">
-                   <strong>Pré-visualização</strong>
-                 </div>
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              onChange={onFileChange} 
+              accept="image/*" 
+              style={{ display: 'none' }} 
+            />
+             {previewUrl ? (
+               <div className="preview-card" onClick={handleImageClick} title="Alterar imagem">
+                 <img src={previewUrl} alt="Preview" />
                </div>
              ) : (
-               <div className="preview-placeholder">
+               <div className="preview-placeholder" onClick={handleImageClick}>
+                  <ImageIcon size={48} strokeWidth={1} />
                   <span>Escolher imagem</span>
                </div>
              )}
           </div>
+        </div>
+
+        {/* Description Field - Full Width Bottom */}
+        <div className="form-group">
+          <label htmlFor="descricao">Descrição</label>
+            <textarea 
+              id="descricao"
+              {...register('descricao', { required: 'Descrição é obrigatória' })} 
+              rows={5}
+            />
+          {errors.descricao && <span className="error-msg">{errors.descricao.message}</span>}
         </div>
 
         <div className="book-form__actions">

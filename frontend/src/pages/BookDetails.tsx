@@ -84,7 +84,7 @@ const BookDetails = () => {
 
         <div className="details-image">
            <img 
-             src={book.imagem_url} 
+             src={`http://localhost:3000/images/${book.imagem_id}`} 
              alt={book.titulo} 
              onError={(e) => (e.target as HTMLImageElement).style.display = 'none'} 
            />
