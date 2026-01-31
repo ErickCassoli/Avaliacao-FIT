@@ -47,10 +47,10 @@ export class BooksController {
   @ApiOperation({ summary: 'List all books with pagination' })
   @ApiResponse({ status: 200, description: 'Return all books.' })
   @ApiQuery({ name: 'page', required: false, type: Number, description: 'Page number (default: 1)' })
-  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Items per page (default: 10)' })
+  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Items per page (default: 12)' })
   findAll(
     @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('limit') limit: number = 12,
   ): Promise<Book[]> {
     return this.booksService.findAll(page, limit);
   }
