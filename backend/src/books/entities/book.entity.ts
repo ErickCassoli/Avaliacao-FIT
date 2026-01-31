@@ -26,5 +26,5 @@ export class Book {
   descricao: string;
 
   @Column()
-  imagem_url: string;
+  imagem_id: string;
 }
