@@ -7,7 +7,7 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
 import { ConfigService } from '@nestjs/config';
 import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBadRequestResponse, ApiNotFoundResponse } from '@nestjs/swagger';
-import { ApiErrorResponse } from '../common/dto/api-error.dto';
+import { ApiErrorResponse } from '../common/dto/error.dto';
 
 @ApiTags('books')
 @Controller('books')

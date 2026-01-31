@@ -2,17 +2,17 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class ApiErrorResponse {
     @ApiProperty({ example: 400 })
-    statusCode: number;
+    statusCode!: number;
 
     @ApiProperty({ example: 'Validation failed' })
-    message: string | string[];
+    message!: string | string[];
 
     @ApiProperty({ example: 'Bad Request' })
-    error: string;
+    error!: string;
 
     @ApiProperty({ example: '2023-10-27T10:00:00.000Z' })
-    timestamp: string;
+    timestamp!: string;
 
     @ApiProperty({ example: '/books' })
-    path: string;
+    path!: string;
 }
