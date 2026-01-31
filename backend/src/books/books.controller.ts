@@ -6,8 +6,8 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
 import { ConfigService } from '@nestjs/config';
-
-import { ApiTags, ApiOperation, ApiResponse, ApiConsumes } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBadRequestResponse, ApiNotFoundResponse } from '@nestjs/swagger';
+import { ApiErrorResponse } from '../common/dto/error.dto';
 
 @ApiTags('books')
 @Controller('books')
@@ -25,6 +25,7 @@ export class BooksController {
   @ApiOperation({ summary: 'Create a new book with optional image' })
   @ApiConsumes('multipart/form-data')
   @ApiResponse({ status: 201, description: 'Book successfully created.' })
+  @ApiBadRequestResponse({ description: 'Validation failed', type: ApiErrorResponse })
   @UseInterceptors(FileInterceptor('image'))
   async create(
     @Body() createBookDto: CreateBookDto,
@@ -57,7 +58,7 @@ export class BooksController {
   @Get(':id')
   @ApiOperation({ summary: 'Get a book by ID' })
   @ApiResponse({ status: 200, description: 'Return the book.' })
-  @ApiResponse({ status: 404, description: 'Book not found.' })
+  @ApiNotFoundResponse({ description: 'Book not found.', type: ApiErrorResponse })
   findOne(@Param('id') id: string): Promise<Book> {
     return this.booksService.findOne(id);
   }
