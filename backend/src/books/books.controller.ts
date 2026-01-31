@@ -7,6 +7,9 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
 import { ConfigService } from '@nestjs/config';
 
+import { ApiTags, ApiOperation, ApiResponse, ApiConsumes } from '@nestjs/swagger';
+
+@ApiTags('books')
 @Controller('books')
 export class BooksController {
   constructor(
@@ -19,6 +22,9 @@ export class BooksController {
    * Create a new book with optional image upload.
    */
   @Post()
+  @ApiOperation({ summary: 'Create a new book with optional image' })
+  @ApiConsumes('multipart/form-data')
+  @ApiResponse({ status: 201, description: 'Book successfully created.' })
   @UseInterceptors(FileInterceptor('image'))
   async create(
     @Body() createBookDto: CreateBookDto,
@@ -37,6 +43,8 @@ export class BooksController {
    * @returns A list of all books.
    */
   @Get()
+  @ApiOperation({ summary: 'List all books' })
+  @ApiResponse({ status: 200, description: 'Return all books.' })
   findAll(): Promise<Book[]> {
     return this.booksService.findAll();
   }
@@ -47,6 +55,9 @@ export class BooksController {
    * @returns The found book entity.
    */
   @Get(':id')
+  @ApiOperation({ summary: 'Get a book by ID' })
+  @ApiResponse({ status: 200, description: 'Return the book.' })
+  @ApiResponse({ status: 404, description: 'Book not found.' })
   findOne(@Param('id') id: string): Promise<Book> {
     return this.booksService.findOne(id);
   }
@@ -58,6 +69,9 @@ export class BooksController {
    * @returns The updated book entity.
    */
   @Put(':id')
+  @ApiOperation({ summary: 'Update a book' })
+  @ApiConsumes('multipart/form-data')
+  @ApiResponse({ status: 200, description: 'Book successfully updated.' })
   @UseInterceptors(FileInterceptor('image'))
   async update(
     @Param('id') id: string,
@@ -77,6 +91,8 @@ export class BooksController {
    * @returns void
    */
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete a book' })
+  @ApiResponse({ status: 200, description: 'Book successfully deleted.' })
   remove(@Param('id') id: string): Promise<void> {
     return this.booksService.remove(id);
   }
