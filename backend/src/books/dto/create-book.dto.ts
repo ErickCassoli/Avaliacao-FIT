@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
 
 /**
  * DTO for creating a new Book.
@@ -21,7 +21,7 @@ export class CreateBookDto {
   @IsNotEmpty()
   descricao: string;
 
-  @IsUrl()
-  @IsNotEmpty()
-  imagem_url: string;
+  @IsString()
+  @IsOptional()
+  imagem_id?: string;
 }

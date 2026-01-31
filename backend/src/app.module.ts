@@ -1,16 +1,25 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Book } from './books/entities/book.entity';
 import { BooksModule } from './books/books.module';
+import { ImagesModule } from './images/images.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '../.env', // Go one level up to root
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGO_URI'),
+      }),
+      inject: [ConfigService],
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -23,6 +32,7 @@ import { BooksModule } from './books/books.module';
       synchronize: true, // TRUE for dev/test only
     }),
     BooksModule,
+    ImagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
