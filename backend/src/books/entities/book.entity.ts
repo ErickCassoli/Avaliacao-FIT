@@ -25,6 +25,6 @@ export class Book {
   @Column('text')
   descricao: string;
 
-  @Column()
+  @Column({ nullable: true })
   imagem_id: string;
 }

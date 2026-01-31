@@ -25,27 +25,33 @@ services:
     networks:
       - livraria_network
 
-#  backend:
-#    build: ./backend
-#    container_name: livraria_backend
-#    ports:
-#      - "${BACKEND_PORT}:3000"
-#    environment:
-#      DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
-#    depends_on:
-#      - db
-#    networks:
-#      - livraria_network
-#
-#  frontend:
-#    build: ./frontend
-#    container_name: livraria_frontend
-#    ports:
-#      - "${FRONTEND_PORT}:5173"
-#    depends_on:
-#      - backend
-#    networks:
-#      - livraria_network
+  backend:
+    build: ./backend
+    container_name: livraria_backend
+    ports:
+      - "${BACKEND_PORT}:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      MONGO_URI: mongodb://mongo:27017/livraria
+    depends_on:
+      - db
+      - mongo
+    networks:
+      - livraria_network
+
+  frontend:
+    build: ./frontend
+    container_name: livraria_frontend
+    ports:
+      - "${FRONTEND_PORT}:80"
+    depends_on:
+      - backend
+    networks:
+      - livraria_network
 
 networks:
   livraria_network:
