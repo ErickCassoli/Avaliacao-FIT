@@ -37,31 +37,35 @@ A maneira mais fácil de rodar o projeto é utilizando o Docker Compose:
     ```
     *Isso garantirá que o Backend consiga se conectar ao Postgres e Mongo.*
 
-3.  **Suba os Bancos de Dados:**
-    ```bash
-    docker compose up -d
-    ```
-    *Isso iniciará os containers do PostgreSQL e MongoDB.*
+3.  **Escolha o Modo de Execução:**
+    Você pode rodar apenas a infraestrutura (para desenvolvimento local) ou a aplicação completa containerizada.
 
-4.  **Inicie as Aplicações:**
+    ### 🛠️ Opção A: Desenvolvimento Local (Recomendado para Devs)
+    *Roda apenas os bancos no Docker. Backend e Frontend rodam na sua máquina.*
 
-    *   **Backend:**
+    1.  **Suba os Bancos:**
         ```bash
-        cd backend
-        npm install
-        npm run seed    # (Opcional) Popula o banco com dados iniciais
-        npm run start:dev
+        docker compose up -d
         ```
-    *   **Frontend:**
-        ```bash
-        cd frontend
-        npm install
-        npm run dev
-        ```
+    2.  **Inicie as Aplicações:**
+        *   **Backend:** `cd backend && npm run start:dev`
+        *   **Frontend:** `cd frontend && npm run dev`
+    3.  **Acesse:**
+        *   Frontend: `http://localhost:5173`
+        *   Backend: `http://localhost:3000`
 
-5.  **Acesse:**
-    *   📱 **Aplicação:** [http://localhost:5173](http://localhost:5173)
-    *   📄 **Documentação API:** [http://localhost:3000/api/docs](http://localhost:3000/api/docs)
+    ---
+
+    ### � Opção B: Modo Fullstack (Produção/Demo)
+    *Roda TUDO (App + Bancos) dentro do Docker.*
+
+    1.  **Suba tudo:**
+        ```bash
+        docker compose --profile app up --build
+        ```
+    2.  **Acesse:**
+        *   Frontend: `http://localhost:5173` (Via Nginx)
+        *   Backend: `http://localhost:3000`
 
 ---
 
@@ -87,4 +91,3 @@ npm run test
 ```
 ---
 
-Desenvolvido por **Erick Cassoli** 🚀

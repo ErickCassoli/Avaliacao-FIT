@@ -28,6 +28,7 @@ services:
   backend:
     build: ./backend
     container_name: livraria_backend
+    profiles: ["app"]
     ports:
       - "${BACKEND_PORT}:3000"
     environment:
@@ -46,6 +47,7 @@ services:
   frontend:
     build: ./frontend
     container_name: livraria_frontend
+    profiles: ["app"]
     ports:
       - "${FRONTEND_PORT}:80"
     depends_on:
