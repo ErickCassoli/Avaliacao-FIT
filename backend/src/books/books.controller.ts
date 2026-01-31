@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { BooksService } from './books.service';
 import { ImagesService } from '../images/images.service';
@@ -6,7 +6,7 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
 import { ConfigService } from '@nestjs/config';
-import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBadRequestResponse, ApiNotFoundResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBadRequestResponse, ApiNotFoundResponse, ApiQuery } from '@nestjs/swagger';
 import { ApiErrorResponse } from '../common/dto/error.dto';
 
 @ApiTags('books')
@@ -44,10 +44,15 @@ export class BooksController {
    * @returns A list of all books.
    */
   @Get()
-  @ApiOperation({ summary: 'List all books' })
+  @ApiOperation({ summary: 'List all books with pagination' })
   @ApiResponse({ status: 200, description: 'Return all books.' })
-  findAll(): Promise<Book[]> {
-    return this.booksService.findAll();
+  @ApiQuery({ name: 'page', required: false, type: Number, description: 'Page number (default: 1)' })
+  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Items per page (default: 10)' })
+  findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<Book[]> {
+    return this.booksService.findAll(page, limit);
   }
 
   /**

@@ -10,7 +10,7 @@ export class BooksService {
   constructor(
     @InjectRepository(Book)
     private booksRepository: Repository<Book>,
-  ) {}
+  ) { }
 
   /**
    * Creates a new book in the database.
@@ -26,8 +26,12 @@ export class BooksService {
    * Retrieves all books.
    * @returns An array of books
    */
-  async findAll(): Promise<Book[]> {
-    return this.booksRepository.find();
+  async findAll(page: number = 1, limit: number = 10): Promise<Book[]> {
+    const skip = (page - 1) * limit;
+    return this.booksRepository.find({
+      skip,
+      take: limit,
+    });
   }
 
   /**
