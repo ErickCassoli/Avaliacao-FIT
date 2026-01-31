@@ -55,6 +55,13 @@ Sistema fullstack de gerenciamento de livros com upload de capas, desenvolvido c
    ```
    *O frontend rodará em http://localhost:5173*
 
+## 🗃️ Seed (Popular Banco)
+Para preencher o banco de dados com livros de exemplo:
+```bash
+cd backend
+npm run seed
+```
+
 ## 🏛️ Decisões Arquiteturais
 
 ### Armazenamento Híbrido
