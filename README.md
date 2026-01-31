@@ -1,80 +1,79 @@
-# Livraria (Avaliação FIT) 📚
+# 📚 Livraria FIT - Fullstack Challenge
 
-Sistema fullstack de gerenciamento de livros com upload de capas, desenvolvido como parte da avaliação técnica FIT.
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Node](https://img.shields.io/badge/node-v18+-green)
 
-## 🚀 Tecnologias
+Sistema completo de gerenciamento de livros desenvolvido como parte da avaliação técnica FIT. O projeto demonstra uma arquitetura escalável utilizando **NestJS** no backend e **React** no frontend, com armazenamento híbrido (Relacional + NoSQL).
 
-### Backend
-- **NestJS** (Framework NodeJS)
-- **PostgreSQL** (Metadados dos Livros)
-- **MongoDB** (Armazenamento de Imagens/Binários)
-- **TypeORM** & **Mongoose**
-- **Docker** (Containerização)
+---
 
-### Frontend
-- **React** (Vite + TypeScript)
-- **CSS Modules** (Estilização customizada)
-- **Axios** (Integração API)
-- **React Router DOM**
+## 🌟 Diferenciais do Projeto
 
-## 🛠️ Como Rodar
+*   **Arquitetura Híbrida:** PostgreSQL (Metadados) + MongoDB (Imagens/Binários).
+*   **DevOps:** Pipeline de CI com **GitHub Actions** configurado.
+*   **UX Premium:** Interface responsiva com paginação e feedbacks visuais.
+*   **Qualidade de Código:** Padrões SOLID, TypeScript estrito e DTOs validados.
+*   **Documentação Viva:** API totalmente documentada com Swagger.
 
-### Pré-requisitos
-- Docker Desktop instalado e rodando.
-- Node.js (v18+)
+---
 
-### Passo a Passo
+## 🚀 Quick Start (Rodando Tudo)
 
-1. **Clone o repositório**
-   ```bash
-   git clone <url-do-repo>
-   cd Avaliacao-FIT
-   ```
+A maneira mais fácil de rodar o projeto é utilizando o Docker Compose:
 
-2. **Suba a infraestrutura (Bancos de Dados)**
-   Isso iniciará o PostgreSQL e o MongoDB via Docker.
-   ```bash
-   docker compose up -d
-   ```
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/seu-usuario/Avaliacao-FIT.git
+    cd Avaliacao-FIT
+    ```
 
-3. **Inicie o Backend**
-   Em um terminal:
-   ```bash
-   cd backend
-   npm install
-   npm run start:dev
-   ```
-   *O backend rodará em http://localhost:3000*
+2.  **Suba os Bancos de Dados:**
+    ```bash
+    docker compose up -d
+    ```
+    *Isso iniciará os containers do PostgreSQL e MongoDB.*
 
-4. **Inicie o Frontend**
-   Em outro terminal:
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
-   *O frontend rodará em http://localhost:5173*
+3.  **Inicie as Aplicações:**
 
-## 🗃️ Seed (Popular Banco)
-Para preencher o banco de dados com livros de exemplo:
-```bash
-cd backend
-npm run seed
-```
+    *   **Backend:**
+        ```bash
+        cd backend
+        npm install
+        npm run seed    # (Opcional) Popula o banco com dados iniciais
+        npm run start:dev
+        ```
+    *   **Frontend:**
+        ```bash
+        cd frontend
+        npm install
+        npm run dev
+        ```
 
-## 🏛️ Decisões Arquiteturais
+4.  **Acesse:**
+    *   📱 **Aplicação:** [http://localhost:5173](http://localhost:5173)
+    *   📄 **Documentação API:** [http://localhost:3000/api/docs](http://localhost:3000/api/docs)
 
-### Armazenamento Híbrido
-Optou-se por uma abordagem híbrida para demonstrar proficiência em lidar com diferentes tipos de bancos de dados:
-- **Postgres (Relacional):** Ideal para dados estruturados e relacionais (Livros, Autores, Datas). Garante integridade e consistência.
-- **MongoDB (NoSQL):** Utilizado aqui como um *Object Store* para os binários das imagens. Embora imagens geralmente fiquem em S3/Blob Storage em produção, o uso do Mongo demonstra capacidade de integração com bancos NoSQL e manipulação de fluxos de dados binários (Buffers) numa arquitetura de microsserviços simulada.
+---
 
-### Frontend
-Design focado na experiência do usuário (UX), com **Modais** para operações de CRUD para evitar navegação desnecessária e manter o contexto.
+## 🏗️ Arquitetura
+
+O projeto está organizado como um **Monorepo**:
+
+*   **[`/backend`](./backend/README.md):** API NestJS, contendo regras de negócio, acesso a dados e testes.
+*   **[`/frontend`](./frontend/README.md):** Aplicação React (SPA), responsável pela interface do usuário.
+
+### Decisão de Armazenamento Híbrido
+Optou-se por usar **MongoDB** para armazenar as imagens (simulando um Object Storage) e **PostgreSQL** para os dados relacionais dos livros. O Frontend consome a imagem através de um endpoint de streaming do Backend, garantindo segurança e abstração.
+
+---
 
 ## 🧪 Testes
-Para rodar os testes unitários do backend:
+
+Para garantir a robustez, o backend possui testes unitários cobrindo serviços e controladores.
+
 ```bash
 cd backend
 npm run test
 ```
+---
+
+Desenvolvido por **Erick Cassoli** 🚀

@@ -1,73 +1,48 @@
-# React + TypeScript + Vite
+# 🎨 Livraria UI (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface moderna e responsiva desenvolvida com **React** e **Vite**, focada na experiência do usuário (UX). Utiliza CSS Modules para estilização e modais para fluxos de criação/edição sem recarregamento.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Core:** [React](https://react.dev/) + [Vite](https://vitejs.dev/)
+- **Linguagem:** TypeScript
+- **Estilização:** CSS Modules + Variáveis CSS (Theming)
+- **Ícones:** Lucide React
+- **HTTP Client:** Axios
+- **Roteamento:** React Router DOM
 
-## React Compiler
+## ⚙️ Instalação e Execução
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Instalação
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Rodando em Desenvolvimento
+```bash
+npm run dev
+```
+O frontend estará acessível em: `http://localhost:5173`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 3. Build para Produção
+```bash
+npm run build
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🧩 Funcionalidades Principais
+
+- **Listagem com Paginação:** Grid de livros responsivo com controles de página.
+- **Busca em Tempo Real:** Filtro por título ou autor.
+- **Modais de CRUD:** Formulários de criação e edição abrem em sobreposição (Overlay).
+- **Upload de Imagens:** Preview instantâneo da capa do livro.
+
+## 📂 Estrutura de Pastas
+
+```
+src/
+├── components/      # Componentes Reutilizáveis (Cards, Modais, Inputs)
+├── pages/           # Páginas (BookList, BookDetails)
+├── services/        # Configuração do Axios (api.ts)
+├── types/           # Definições de Tipos TS (Interfaces)
+└── styles/          # Temas globais e resets
 ```
