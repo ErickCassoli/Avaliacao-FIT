@@ -48,8 +48,8 @@ A maneira mais fácil de rodar o projeto é utilizando o Docker Compose:
         docker compose up -d
         ```
     2.  **Inicie as Aplicações:**
-        *   **Backend:** `cd backend && npm run start:dev`
-        *   **Frontend:** `cd frontend && npm run dev`
+        *   **Backend:** `cd backend && npm i && npm run start:dev`
+        *   **Frontend:** `cd frontend && npm i && npm run dev`
     3.  **Acesse:**
         *   Frontend: `http://localhost:5173`
         *   Backend: `http://localhost:3000`
